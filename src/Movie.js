@@ -41,7 +41,7 @@ class MovieCard extends Component{
           
 
           
-          if(this.state.testopen===null&&(this.state.testopen && (this.state.testopen!==this.props.item.location.lat))){
+          if(this.state.testopen===null||(this.state.testopen && (this.state.testopen!==this.props.item.location.lat))){
           //if(this.state.testopen===null||(this.state.testopen && (this.state.geovalue[0]!==this.state.testopen))){
             //this.setState({testopen:this.state.geovalue[0]})
       /* if  
