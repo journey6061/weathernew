@@ -36,7 +36,8 @@ class Movies extends Component {
     blockdis:true,
     lat:null,
     lng:null,
-    lastlat:null
+    lastlat:null,
+    test:'test'
   }
 
   componentDidUpdate(){
@@ -58,8 +59,8 @@ class Movies extends Component {
                         this.setState({temp: res.data.properties.periods[0].temperature})
                         this.setState({lastlat: this.state.lat})
 
-                        localStorage.user=localStorage.user+1;
-                        console.log(localStorage.user)
+                        localStorage.pagecount=Number(localStorage.pagecount) +1;
+                        console.log(localStorage.pagecount)
 
 
                        }
@@ -69,6 +70,18 @@ class Movies extends Component {
                 } );
 
              }
+  }
+
+  clickFav(){
+    //console.log(this.state.test);
+    /* localStorage.favLat=this.state.lat;
+    localStorage.favLng=this.state.lng; */
+    //localStorage.favLat=this.state.lat;
+    //console.log(this.state.lat);
+    this.props.favdataback(this.state.lat);
+    
+    //this.props.favback(this.state.lat);
+
   }
 
   testapp(ee){
@@ -88,6 +101,8 @@ class Movies extends Component {
     this.setState({lng: testlng})
     //this.setState({lng: val.lng});
     console.log(this.state.lat);
+
+    //localStorage.favLat=val.lat;
 
     //return val
 
@@ -119,7 +134,12 @@ class Movies extends Component {
   }
 
   render(){
-    localStorage.user=1
+    //localStorage.pagecount=1
+
+   // let fav=null;
+
+    
+    
     let cards=<h3>Loading...</h3>;
     let tempra=null;
     if (this.props.list&&this.state.blockdis) {
@@ -153,6 +173,10 @@ class Movies extends Component {
     <div>
       {tempra}
 
+    </div>
+
+    <div onClick={()=>this.clickFav()}>
+      click to collect 
     </div>
     
     
