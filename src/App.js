@@ -1,6 +1,6 @@
 import React, { Component } from "react";
 import axios from "axios";
-import Favelement from './component/favelement'
+//import Favelement from './component/favelement'
 
 import { search } from "./utils";
 import Movies from "./Movies";
@@ -13,7 +13,10 @@ class App extends Component {
     loading: false,
     value: "Search location, zip...",
     favdata:[],
-    favarr:null
+    favorlat:null,
+    favorlng:null,
+    temp:null
+
   };
 
   componentDidUpdate(){
@@ -43,117 +46,30 @@ class App extends Component {
     this.setState({ value: e.target.value });
   };
 
-  removeele(index){
-    let arr=JSON.parse(localStorage.getItem('favo'));
-    arr.splice(index, 1);
-    this.setState({favarr:arr});
-
-    localStorage.setItem('favo',JSON.stringify(arr));
-
-
-
-
-  }
-
-  testfav(val){
-    console.log(val);
-    //this.setState({favdata:val});
-    //this.setState({favdata:this.state.favdata.concat(val)});
-
-
-    /* if(localStorage.favo===null){
-      localStorage.favo=val;
-      this.setState({favdata:val});
-    }
-    else{ */
-
-      //localStorage.favo=val;
-      //console.log(localStorage.favo)
-
-
-      if(localStorage.favo){
-
-        let arrprev=JSON.parse(localStorage.getItem('favo'));
-        if(arrprev.indexOf(val)=== -1){
-          console.log(JSON.parse(localStorage.getItem('favo')))
-          let textdata=JSON.parse(localStorage.getItem('favo'))
-          //console.log(textdata)
-          //let testarr=[textdata]
-          textdata.push(val)
-          //console.log(typeof testarr);
-          console.log(textdata);
-          this.setState({favarr:textdata})
   
-          localStorage.setItem('favo',JSON.stringify(textdata));
-          console.log(localStorage.favo);
-        }
-        
-        //textdata.push(val)
-        //console.log(textdata)
-        /* let existfav=[];
-        existfav.concat(JSON.parse(localStorage.getItem('favo')))
-        console.log(existfav);
-
-        existfav.push(val);
-        console.log(existfav); */
-       
-       
-       // localStorage.favo=val;
-       //console.log(localStorage.favo) ;
-       // console.log(JSON.parse(localStorage.getItem('favo'))) ;
-       // let newfavarr=existfav.push(val);
-       // console.log(newfavarr) ;
+  testfav(lat, lng){
+    console.log(lat);
+    console.log(lng);
 
 
-      }
+    this.setState({favorlat: lat})
+    this.setState({favorlng: lng})
 
 
+    /* let testlat=val.lat
+    let testlng=val.lng
+    this.setState({lat: testlat})
+    this.setState({lng: testlng})
+    //this.setState({lng: val.lng});
+    console.log(this.state.lat);
+ */
 
-
-      /* let favodata=JSON.parse(localStorage.getItem('favo'))
-    //localStorage.setItem('favo',JSON.stringify(favodata));
-    //favodata = JSON.parse(localStorage.getItem('favo'));
-    //favodata.concat(val)
-
-      let newfavor=favodata.map(num => {
-          if(num&&num!==val){
-            favodata.concat(val)
-          }
-      }
-        );
-
-      localStorage.setItem('favo',JSON.stringify(newfavor));
-
-      this.setState({favdata:newfavor}); */
-   // }
-    
-
-
-    
-
-    //localStorage.fav=val;
-
-  // console.log(this.state.favdata);
-  
    
-    
-
   }
 
-  /* addfav(tt){
-    console.log(tt);
-    localStorage.fav=tt
-  } */
-
-  /* testapp = () => {
-    
-   console.log('it is')
-  };
-  
-
-  handleSelect(){
-    console.log('it is')
-  } */
+  tempdisplay(temp){
+    this.setState({temp: temp})
+  }
 
   get renderMovies() {
     let movies = <h1>There's no test!</h1>;
@@ -161,6 +77,9 @@ class App extends Component {
       movies = <Movies list={this.state.movies} /* testapp={this.testapp} */
       //favback={this.addfav}
       favdataback={this.testfav.bind(this)}
+      flat={this.state.favorlat}
+      flng={this.state.favorlng}
+      tempera={this.tempdisplay.bind(this)}
       />;
     }
 
@@ -168,21 +87,15 @@ class App extends Component {
   }
 
   render() {
-    //localStorage.favo=null;
-
-    /* let fav = <h1>There's no fav!</h1>;
-    if (this.state.favdata) {
-      fav = JSON.parse(localStorage.getItem('favo'));
-    } */
-
-    let favele=JSON.parse(localStorage.getItem('favo')).map((xx, index)=>{
-      //return(<div>{xx}</div>)
-      return <Favelement key={xx+index} 
-      ele={xx} 
-      delelement={()=>this.removeele(index)}/>;
+    let temperature=<h3>there's no temperature now.</h3>
+    if(this.state.temp){
+      temperature=this.state.temp
     }
-      
-    )
+    else{
+      temperature=<h3>temperature loading</h3>
+    }
+   
+   
     return (
       <div>
         <input
@@ -193,15 +106,11 @@ class App extends Component {
         />
         {this.renderMovies}
 
+        
+      
         <div>
-          {favele}
+          {temperature}
         </div>
-        <div>
-          {localStorage.favo}
-        </div>
-        {/* <div>
-          {JSON.parse(localStorage.getItem('favo'))}
-        </div> */}
       </div>
     );
   }

@@ -2,9 +2,13 @@ import React from 'react';
 
 const Favelement = (props)=>{
     return(
-        <button onClick={props.delelement}>
+        <div>
             {props.ele}
-        </button>
+            <button 
+            onClick={props.displaywea}
+            >weather</button>
+            <button onClick={props.delelement}>delete</button>
+        </div>
     )
 
 }
